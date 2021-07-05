@@ -34,7 +34,7 @@
     "eject": "craco eject",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public",
-    "postinstall": "npm i && npm run build"
+    "postinstall": "yarn && yarn build"
   },
   "eslintConfig": {
     "extends": [
