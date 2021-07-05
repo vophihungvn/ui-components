@@ -25,7 +25,10 @@
     "rollup-plugin-postcss": "^4.0.0",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat",
     "typescript": "^4.1.2",
-    "web-vitals": "^1.0.1"
+    "web-vitals": "^1.0.1",
+    "autoprefixer": "^9",
+    "postcss": "^7",
+    "rollup-plugin-typescript": "^1.0.1"
   },
   "scripts": {
     "start": "craco start",
@@ -70,9 +73,6 @@
     "@storybook/addon-links": "^6.3.2",
     "@storybook/node-logger": "^6.3.2",
     "@storybook/preset-create-react-app": "^3.1.7",
-    "@storybook/react": "^6.3.2",
-    "autoprefixer": "^9",
-    "postcss": "^7",
-    "rollup-plugin-typescript": "^1.0.1"
+    "@storybook/react": "^6.3.2"
   }
 }
