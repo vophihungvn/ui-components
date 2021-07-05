@@ -1,0 +1,171 @@
+/* @tailwind base;
+@tailwind components;
+@tailwind utilities; */
+
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+.btn-primary {
+  @apply uppercase tracking-widest items-center px-4 py-3 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600;
+}
+
+.icon-dropdown {
+  @apply absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none opacity-50;
+}
+.btn-white-small {
+  @apply transition duration-200 z-0 ease-in-out opacity-0 uppercase absolute top-1.5 right-0.5 inline-flex items-center px-1.5 py-0.5 tracking-wide border border-transparent text-xs font-semibold rounded text-blue-500 bg-white;
+}
+.btn-white-small:hover {
+  @apply text-blue-600;
+}
+.btn-white-small:focus {
+  @apply outline-none ring-offset-1 ring-1 ring-blue-500;
+}
+.btn-primary:hover {
+  @apply bg-blue-700;
+}
+.btn-primary:focus {
+  @apply outline-none ring-2 ring-offset-2 ring-blue-500;
+}
+
+.btn-secondary {
+  @apply uppercase tracking-widest items-center border border-blue-100 shadow-sm text-sm font-medium rounded-md text-blue-700 bg-blue-50;
+}
+.btn-secondary:focus {
+  @apply outline-none ring-2 ring-offset-2 ring-blue-500;
+}
+
+.btn-secondary:hover {
+  @apply bg-blue-100;
+}
+
+.subhead {
+  @apply mb-4 text-sm font-semibold tracking-wider text-gray-700 uppercase;
+}
+.form-label {
+  @apply text-sm font-medium text-gray-700 mt-4 mb-2;
+}
+.select-label {
+  @apply bg-white relative w-full border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default text-gray-600 text-sm;
+}
+.select-label:focus {
+  @apply outline-none ring-1 ring-blue-500 border-blue-500;
+}
+.card-header {
+  @apply rounded-md px-3 py-2 flex items-center;
+}
+
+.card-title {
+  @apply flex-grow font-semibold tracking-wide text-sm  pr-2;
+}
+.btn-tiny {
+  @apply text-xs px-1 py-0.5 border border-gray-200 text-slate-500 uppercase rounded inline-block bg-white;
+}
+
+/* .hover-grup:hover .btn-tiny{
+     @apply opacity-100;
+ } */
+
+.card-container {
+  @apply rounded-md border;
+}
+
+.btn-card-status {
+  @apply font-semibold relative w-full border rounded-full shadow-sm pl-3 pr-10 py-1 text-left cursor-default text-sm tracking-wide cursor-pointer;
+  min-width: 130px;
+}
+.btn-card-status:hover {
+  @apply outline-none;
+  .arrow-icon {
+    @apply opacity-100;
+  }
+}
+.btn-card-status:focus {
+  @apply outline-none;
+}
+.status-label.in-progress-label {
+  @apply bg-green-50 text-green-700;
+}
+.status-label.new-label {
+  @apply bg-blue-100 text-blue-700;
+}
+.status-label.complete-label {
+  @apply bg-magenta-200 text-magenta-700;
+}
+.status-label {
+  @apply inline-block px-1 rounded font-semibold;
+}
+
+/* card in-progress */
+.card-in-progress .card-title {
+  @apply text-green-700;
+}
+.card-in-progress .card-container {
+  @apply border-green-400;
+}
+.card-in-progress .card-header {
+  @apply bg-green-50;
+}
+
+.card-in-progress .btn-card-status {
+  @apply border-green-500 text-green-700 bg-green-100;
+}
+.card-in-progress .btn-card-status:hover {
+  @apply bg-green-200;
+}
+
+/* card new */
+.card-new .card-title {
+  @apply text-blue-700;
+}
+.card-new .card-container {
+  @apply border-blue-400;
+}
+.card-new .card-header {
+  @apply bg-blue-50;
+}
+
+.card-new .btn-card-status {
+  @apply border-blue-500 text-blue-700 bg-blue-100;
+}
+.card-new .btn-card-status:hover {
+  @apply bg-blue-200;
+}
+
+/* card complete */
+.card-complete .card-title {
+  @apply text-magenta-700;
+}
+.card-complete .card-container {
+  @apply border-magenta-400;
+}
+.card-complete .card-header {
+  @apply bg-magenta-50;
+}
+
+.card-complete .btn-card-status {
+  @apply border-magenta-500 text-magenta-700 bg-magenta-100;
+}
+.card-complete .btn-card-status:hover {
+  @apply bg-magenta-200;
+}
+
+.status-new {
+  @apply text-blue-700 bg-blue-50;
+}
+
+.status-in-progress {
+  @apply text-green-700 bg-green-200;
+}
+
+.status-complete {
+  @apply text-magenta-700 bg-magenta-100;
+}
+
+.small-tooltip {
+  @apply border rounded shadow-sm border-gray-300 absolute left-1/2 bottom-4 block px-2 py-1 bg-white text-gray-600 text-xs min-w-max transform -translate-x-1/2 -translate-y-3 opacity-0 font-normal transition-transform transition-opacity duration-200 delay-300 ease-in-out;
+}
+.small-icon:hover .small-tooltip {
+  @apply opacity-100 transform -translate-x-1/2 translate-y-0;
+}
