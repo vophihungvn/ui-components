@@ -32,32 +32,6 @@ const config = [
     ],
     external: Object.keys(pkg.peerDependencies || {}),
   },
-  {
-    input: "src/utils.ts",
-    output: [
-      { file: "dist/utils.cjs.js", format: "cjs" },
-      { file: "dist/utils.esm.js", format: "esm" },
-    ],
-    plugins: [
-      external(),
-      typescript(),
-      postcss({
-        config: {
-          path: "./postcss.config.js",
-        },
-        extensions: [".css"],
-        minimize: true,
-        inject: {
-          insertAt: "top",
-        },
-      }),
-      babel({
-        exclude: "node_modules/**",
-      }),
-      del({ targets: ["dist/utils.cjs.js", "dist/utils.esm.js"] }),
-    ],
-    external: Object.keys(pkg.peerDependencies || {}),
-  },
 ];
 
 export default config;
