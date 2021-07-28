@@ -1,0 +1,24 @@
+@import "../../index.css";
+.predict-table {
+  th,
+  tr {
+    border-bottom: 1px solid #d5d8e0;
+  }
+
+  th,
+  td {
+    padding: 1rem;
+  }
+
+  th {
+    background-color: #d7dfe6;
+  }
+
+  tbody {
+    background-color: white;
+  }
+
+  .prediction-dot {
+    margin-top: 6px;
+  }
+}
