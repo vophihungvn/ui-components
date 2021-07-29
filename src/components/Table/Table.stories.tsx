@@ -37,6 +37,7 @@ const Template: ComponentStory<typeof Table> = (args) => (
       {
         title: "Name",
         index: "name",
+        sort: true,
       },
       {
         title: "State",

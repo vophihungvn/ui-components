@@ -1,172 +1,11 @@
 import ReactPaginate from "react-paginate";
-import {
-  ChevronDownIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-} from "@heroicons/react/outline";
-import { Dispatch, Fragment, useMemo, useState } from "react";
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/outline";
+import { useMemo, useState } from "react";
 import "./style.scss";
-import classNames from "classnames";
 import { useReducer } from "react";
 import cloneDeep from "lodash.clonedeep";
-import { Popover, Transition } from "@headlessui/react";
-import { Checkbox } from "../Checkbox";
-
-interface TableColumn {
-  title?: string;
-  index: string;
-  filter?: boolean;
-  filterValue?: string[];
-  filterFunc?: (filters: string[], item: any) => boolean;
-  searchFunc?: (search: string) => boolean;
-  filterItems?: string[];
-}
-
-interface TableProps<T> {
-  data: T[];
-  columns: TableColumn[];
-}
-
-interface ColumnConfig {
-  filter: string[];
-  search: string;
-  sort?: "asc" | "desc" | null;
-  col: TableColumn;
-  filterItems?: any[];
-}
-
-interface HeaderItemProps {
-  col: TableColumn;
-  idx: number;
-  isLast: boolean;
-  data: any[];
-  config: ColumnConfig;
-  onChangeColunmConfig: Dispatch<{
-    type: string;
-    config: {
-      column: string;
-      value: any;
-    };
-  }>;
-}
-
-const FilterPopup = ({
-  title,
-  items,
-  onChange,
-  activeItems,
-}: {
-  title: string;
-  items: string[];
-  onChange: (enable: boolean, item: string) => void;
-  activeItems: string[];
-}) => {
-  return (
-    <div className="w-full max-w-sm px-4 ">
-      <Popover className="relative">
-        {({ open }) => (
-          <>
-            <Popover.Button
-              className={`
-                ${open ? "" : "text-opacity-90"}
-                 group bg-orange-700 px-2 rounded-md inline-flex items-center text-base font-medium hover:text-opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75`}
-            >
-              <span>{title}</span>
-              <ChevronDownIcon
-                className={`${open ? "" : "text-opacity-70"}
-                  ml-2 h-4 w-4 text-orange-300 group-hover:text-opacity-80 transition ease-in-out duration-150`}
-                aria-hidden="true"
-              />
-            </Popover.Button>
-            <Transition
-              as={Fragment}
-              enter="transition ease-out duration-200"
-              enterFrom="opacity-0 translate-y-1"
-              enterTo="opacity-100 translate-y-0"
-              leave="transition ease-in duration-150"
-              leaveFrom="opacity-100 translate-y-0"
-              leaveTo="opacity-0 translate-y-1"
-            >
-              <Popover.Panel className="absolute z-10 w-screen max-w-sm px-4 mt-3 transform -translate-x-1/2 left-1/2 sm:px-0 lg:max-w-3xl">
-                <div className="py-2 overflow-y-scroll rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 max-h-56">
-                  <div className="relative grid gap-8 bg-white p-7 lg:grid-cols-2 ">
-                    {items.map((item) => (
-                      <Checkbox
-                        title={item}
-                        key={item}
-                        onChange={(enable) => onChange(enable, item)}
-                        checked={activeItems.includes(item)}
-                      />
-                    ))}
-                  </div>
-                </div>
-              </Popover.Panel>
-            </Transition>
-          </>
-        )}
-      </Popover>
-    </div>
-  );
-};
-
-const HeaderItem = ({
-  col,
-  idx,
-  isLast = false,
-  data,
-  config,
-  onChangeColunmConfig,
-}: HeaderItemProps): JSX.Element => {
-  const { filter, search, sort, filterItems = [] } = config;
-
-  const handleFilterChange = (isEnable: boolean, item: string) => {
-    let filterItems = [...filter];
-    if (!filter.includes(item) && isEnable) {
-      filterItems.push(item);
-    }
-
-    if (!isEnable) {
-      filterItems = filterItems.filter((ft) => ft !== item);
-    }
-
-    onChangeColunmConfig({
-      type: "filter",
-      config: { column: col.index, value: filterItems },
-    });
-  };
-
-  const renderHeader = () => {
-    if (col.filter) {
-      return (
-        <FilterPopup
-          title={col.title ?? ""}
-          items={filterItems}
-          onChange={handleFilterChange}
-          activeItems={filter}
-        />
-      );
-    }
-
-    return <span>{col.title}</span>;
-  };
-
-  return (
-    <th
-      className={classNames("font-medium text-left ", {
-        "rounded-tl-md": idx === 0,
-        "rounded-tr-md": isLast,
-      })}
-    >
-      <div
-        className={classNames("flex flex-row items-center", {
-          "cursor-pointer": col.filter,
-        })}
-      >
-        {renderHeader()}
-      </div>
-    </th>
-  );
-};
+import { TableColumn, TableProps, ColumnConfig } from "./index.type";
+import { HeaderItem, SORT_VALUES } from "./HeaderItem";
 
 const generateRowItem = (col: TableColumn, record: any, idx: number) => {
   return <td key={idx}>{record[col.index]}</td>;
@@ -218,10 +57,11 @@ const Table = <T extends unknown>(props: TableProps<T>): JSX.Element => {
   );
 
   const filteredItem = useMemo(() => {
+    console.log({ columnConfig });
     let filterdData = cloneDeep(props.data ?? []);
     const colums = Object.keys(columnConfig);
     colums.forEach((columnName) => {
-      const { filter, search, col } = columnConfig[columnName];
+      const { filter, search, col, sort } = columnConfig[columnName];
       if (filter.length > 0) {
         if (col?.filterFunc) {
           filterdData = filterdData.filter((item) =>
@@ -232,6 +72,16 @@ const Table = <T extends unknown>(props: TableProps<T>): JSX.Element => {
             filter.includes(item[col.index])
           );
         }
+      }
+
+      if (sort && sort !== SORT_VALUES.NONE) {
+        filterdData = filterdData.sort((a: any, b: any): number => {
+          if (sort === SORT_VALUES.ASC) {
+            return a[col.index] > b[col.index] ? 1 : -1;
+          }
+
+          return a[col.index] < b[col.index] ? 1 : -1;
+        });
       }
     });
 
