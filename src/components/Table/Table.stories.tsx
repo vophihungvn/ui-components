@@ -38,6 +38,7 @@ const Template: ComponentStory<typeof Table> = (args) => (
         title: "Name",
         index: "name",
         sort: true,
+        render: (value) => <strong>{value}</strong>,
       },
       {
         title: "State",

@@ -7,15 +7,23 @@ import cloneDeep from "lodash.clonedeep";
 import { TableColumn, TableProps, ColumnConfig } from "./index.type";
 import { HeaderItem, SORT_VALUES } from "./HeaderItem";
 
-const generateRowItem = (col: TableColumn, record: any, idx: number) => {
-  return <td key={idx}>{record[col.index]}</td>;
+const generateRowItem = <T extends unknown>(
+  col: TableColumn<T>,
+  record: T,
+  idx: number
+) => {
+  const value = (record as any)[col.index];
+  if (col.render) {
+    return <td>{col.render(value, idx, record)}</td>;
+  }
+  return <td key={idx}>{value}</td>;
 };
 
 const Table = <T extends unknown>(props: TableProps<T>): JSX.Element => {
   const [page, setPage] = useState<number>(0);
   const initialColumnConfig = useMemo(() => {
     return props.columns.reduce(
-      (obj: { [key: string]: ColumnConfig }, item) => {
+      (obj: { [key: string]: ColumnConfig<T> }, item) => {
         const filterItems =
           item?.filterItems ??
           Array.from(new Set(props.data.map((dt: any) => dt[item.index])));
@@ -35,7 +43,7 @@ const Table = <T extends unknown>(props: TableProps<T>): JSX.Element => {
 
   const [columnConfig, reducerDispatch] = useReducer(
     (
-      state: { [key: string]: ColumnConfig },
+      state: { [key: string]: ColumnConfig<T> },
       action: { type: string; config: { column: string; value: any } }
     ) => {
       switch (action.type) {
@@ -57,7 +65,6 @@ const Table = <T extends unknown>(props: TableProps<T>): JSX.Element => {
   );
 
   const filteredItem = useMemo(() => {
-    console.log({ columnConfig });
     let filterdData = cloneDeep(props.data ?? []);
     const colums = Object.keys(columnConfig);
     colums.forEach((columnName) => {
@@ -91,8 +98,6 @@ const Table = <T extends unknown>(props: TableProps<T>): JSX.Element => {
   const showItem = useMemo(() => {
     return (filteredItem ?? []).slice(page * 10, page * 10 + 10);
   }, [filteredItem, page]);
-
-  console.log({ page });
 
   return (
     <div className="w-full predict-table">
