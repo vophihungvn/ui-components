@@ -1,9 +1,12 @@
-import babel from "@rollup/plugin-babel";
-import external from "rollup-plugin-peer-deps-external";
-import del from "rollup-plugin-delete";
-import typescript from "rollup-plugin-typescript";
+import peerDepsExternal from "rollup-plugin-peer-deps-external";
+import resolve from "@rollup/plugin-node-resolve";
+import commonjs from "@rollup/plugin-commonjs";
+import typescript from "rollup-plugin-typescript2";
 import postcss from "rollup-plugin-postcss";
-import pkg from "./package.json";
+import babel from "@rollup/plugin-babel";
+import del from "rollup-plugin-delete";
+
+const pkg = require("./package.json");
 
 const config = [
   {
@@ -13,8 +16,11 @@ const config = [
       { file: pkg.module, format: "esm" },
     ],
     plugins: [
-      external(),
-      typescript(),
+      peerDepsExternal(),
+      resolve(),
+      commonjs(),
+      // external(),
+      typescript({ useTsconfigDeclarationDir: true }),
       postcss({
         config: {
           path: "./postcss.config.js",

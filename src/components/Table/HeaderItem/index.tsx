@@ -16,14 +16,14 @@ const NEXT_SORT_VALUE = {
   [SORT_VALUES.DESC]: SORT_VALUES.NONE,
 };
 
-const HeaderItem = ({
+const HeaderItem = <T extends any>({
   col,
   idx,
   isLast = false,
   data,
   config,
   onChangeColunmConfig,
-}: HeaderItemProps): JSX.Element => {
+}: HeaderItemProps<T>): JSX.Element => {
   const { filter, search, sort, filterItems = [] } = config;
 
   const handleFilterChange = (isEnable: boolean, item: string) => {
