@@ -1,6 +1,6 @@
 {
   "name": "h1st-ui-components",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "private": true,
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
@@ -96,6 +96,5 @@
     "@storybook/node-logger": "^6.3.5",
     "@storybook/preset-create-react-app": "^3.2.0",
     "@storybook/react": "^6.3.5"
-    
   }
 }
